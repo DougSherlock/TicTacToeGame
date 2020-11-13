@@ -36,3 +36,7 @@ body {
   margin-top: auto;
   margin-bottom: auto;
 }
+
+.Square.winningCell {
+  background-color:red;
+}

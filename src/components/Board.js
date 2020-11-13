@@ -11,6 +11,7 @@ const initialState = {
         ['','',''],
         ['','','']
     ],
+    winningTriplet: [],
 }    
 
 
@@ -60,7 +61,7 @@ export default class Board extends Component {
                     const result = `winner is ${val0}`;
                     console.log(result)
                     //alert(result);
-                    this.setState({winner: val0});
+                    this.setState({winner: val0, winningTriplet: triplet});
                     return;  
             } 
         }
@@ -99,11 +100,21 @@ export default class Board extends Component {
         return (
             <div className="Board">
                 {
-                    this.state.board.map((row, rowIndex) => {                        
+                    this.state.board.map((row, rowIndex) => {     
                         return <div key={rowIndex}>
                             {
-                            row.map((cell, colIndex) => {
-                                return <Square key={colIndex} value={cell} rowIndex={rowIndex} colIndex={colIndex} onBoardClick={this.onBoardClick} />
+                                row.map((cell, colIndex) => {
+                                    const winningCell = this.state.winningTriplet.length > 0 
+                                        && this.state.winningTriplet.filter(cell => (cell[0] === rowIndex) && (cell[1] === colIndex)).length > 0                  
+                                    if (this.state.winningTriplet.length > 0) {
+                                        console.log(`rowIndex:${rowIndex},colIndex${colIndex},this.state.winningTriplet:${this.state.winningTriplet},winningCell:${winningCell}`)
+                                    }
+                                    return <Square key={colIndex} 
+                                        value={cell} 
+                                        rowIndex={rowIndex} 
+                                        colIndex={colIndex} 
+                                        winningCell={winningCell}
+                                        onBoardClick={this.onBoardClick} />
                             })
                             }
                         </div>
